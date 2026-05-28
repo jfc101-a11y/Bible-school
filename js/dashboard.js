@@ -35,6 +35,7 @@ const CURRICULUM = [
     { day:5, name:'Review',      sub:'All Three Languages — Weeks 1–4',   lang:'Hebrew', icon:'HEB', hasLesson:true },
   ]},
   { week:5, title:'Week 5 — Reading Scripture', days:[
+<<<<<<< HEAD
     { day:1, name:'Hebrew X',    sub:'Psalm 23 — Full Reading',           lang:'Hebrew', icon:'HEB', hasLesson:false },
     { day:2, name:'Greek VIII',  sub:'John 1:1–5 — Word by Word',         lang:'Greek',  icon:'GRK', hasLesson:false },
     { day:3, name:'Latin IV',    sub:'The Lord\'s Prayer in Latin',       lang:'Latin',  icon:'LAT', hasLesson:false },
@@ -47,6 +48,20 @@ const CURRICULUM = [
     { day:3, name:'Latin V',     sub:'Latin Imperfect & Future',          lang:'Latin',  icon:'LAT', hasLesson:false },
     { day:4, name:'Hebrew XIII', sub:'Piel Stem — Intensive Active',      lang:'Hebrew', icon:'HEB', hasLesson:false },
     { day:5, name:'Greek XI',    sub:'Participles — Introduction',        lang:'Greek',  icon:'GRK', hasLesson:false },
+=======
+    { day:1, name:'Hebrew X',    sub:'Psalm 23 — Full Reading',           lang:'Hebrew', icon:'HEB', hasLesson:true },
+    { day:2, name:'Greek VIII',  sub:'John 1:1–5 — Word by Word',         lang:'Greek',  icon:'GRK', hasLesson:true },
+    { day:3, name:'Latin IV',    sub:'The Lord\'s Prayer in Latin',       lang:'Latin',  icon:'LAT', hasLesson:true },
+    { day:4, name:'Hebrew XI',   sub:'Genesis 1:1–5 — Full Reading',      lang:'Hebrew', icon:'HEB', hasLesson:true },
+    { day:5, name:'Greek IX',    sub:'Romans 3:21–26 — Justification',    lang:'Greek',  icon:'GRK', hasLesson:true },
+  ]},
+  { week:6, title:'Week 6 — The Verb Deepens', days:[
+    { day:1, name:'Hebrew XII',  sub:'Niphal Stem — Passive Voice',       lang:'Hebrew', icon:'HEB', hasLesson:true },
+    { day:2, name:'Greek X',     sub:'Greek Aorist — Simple Past',        lang:'Greek',  icon:'GRK', hasLesson:true },
+    { day:3, name:'Latin V',     sub:'Latin Imperfect & Future',          lang:'Latin',  icon:'LAT', hasLesson:true },
+    { day:4, name:'Hebrew XIII', sub:'Piel Stem — Intensive Active',      lang:'Hebrew', icon:'HEB', hasLesson:true },
+    { day:5, name:'Greek XI',    sub:'Participles — Introduction',        lang:'Greek',  icon:'GRK', hasLesson:true },
+>>>>>>> master
   ]},
   { week:7, title:'Week 7 — Pronouns & Prepositions', days:[
     { day:1, name:'Hebrew XIV',  sub:'Hebrew Pronouns & Suffixes',        lang:'Hebrew', icon:'HEB', hasLesson:false },
@@ -64,6 +79,49 @@ const CURRICULUM = [
   ]},
 ];
 
+<<<<<<< HEAD
+=======
+// >>> GENERATED: curriculum-hasLesson (do not edit; run `npm run generate:curriculum`)
+const __LESSON_KEYS = {
+  '1-1-Hebrew': true,
+  '1-2-Greek': true,
+  '1-3-Hebrew': true,
+  '1-4-Greek': true,
+  '1-5-Hebrew': true,
+  '2-1-Hebrew': true,
+  '2-2-Greek': true,
+  '2-3-Hebrew': true,
+  '2-4-Greek': true,
+  '2-5-Hebrew': true,
+  '3-1-Latin': true,
+  '3-2-Greek': true,
+  '3-3-Hebrew': true,
+  '3-4-Latin': true,
+  '3-5-Hebrew': true,
+  '4-1-Hebrew': true,
+  '4-2-Greek': true,
+  '4-3-Latin': true,
+  '4-4-Hebrew': true,
+  '4-5-Hebrew': true,
+  '5-1-Hebrew': true,
+  '5-2-Greek': true,
+  '5-3-Latin': true,
+  '5-4-Hebrew': true,
+  '5-5-Greek': true,
+  '6-1-Hebrew': true,
+  '6-2-Greek': true,
+  '6-3-Latin': true,
+  '6-4-Hebrew': true,
+  '6-5-Greek': true,
+};
+for (const w of CURRICULUM) {
+  for (const d of w.days) {
+    d.hasLesson = !!__LESSON_KEYS[`${w.week}-${d.day}-${d.lang}`];
+  }
+}
+// <<< GENERATED: curriculum-hasLesson
+
+>>>>>>> master
 // Full 2-year programme totals for progress bar scaling
 const TOTAL_HEB_LESSONS = 80;
 const TOTAL_GRK_LESSONS = 70;
