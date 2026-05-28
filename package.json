@@ -1,0 +1,9 @@
+{
+  "name": "bible-school",
+  "private": true,
+  "scripts": {
+    "generate:curriculum": "node scripts/generate-curriculum-hasLesson.mjs --write",
+    "check:generated": "node scripts/generate-curriculum-hasLesson.mjs --check"
+  }
+}
+
