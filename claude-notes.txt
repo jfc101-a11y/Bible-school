@@ -1,0 +1,281 @@
+
+# ALETHEIA SEMINARY — PROJECT BRIEFING
+# For: Cursor AI Agent
+# Purpose: Continue building the Aletheia Seminary Bible School web app
+
+---
+
+## WHAT THIS PROJECT IS
+
+A full-stack web app — a two-year self-study Bible school with ancient language instruction.
+Live at: https://aletheiaseminary.com
+Hosted: GitHub Pages (repo: github.com/jfc101-a11y/bible-school)
+DNS/SSL: Cloudflare
+Auth + Database: Supabase
+
+---
+
+## TECH STACK
+
+- **Frontend:** Vanilla HTML/CSS/JS — single-page app (no framework)
+- **Auth & DB:** Supabase (https://edjmdcnqewrkscfajgrk.supabase.co)
+- **Hosting:** GitHub Pages with Cloudflare in front
+- **Fonts:** Cinzel (display), Source Sans 3 (body), Frank Ruhl Libre (Hebrew), Noto Serif (Greek), EB Garamond (serif/Latin)
+
+---
+
+## FILE STRUCTURE
+
+```
+bible-school/
+├── index.html          ← App shell: auth, nav, dashboard, lesson page. NEVER needs to change except to add new lesson <script> tags at the bottom.
+├── style.css           ← All styling. Earthy parchment theme. Touch only for design changes.
+├── js/
+│   ├── app.js          ← Supabase init, global state, routing, timer, boot
+│   ├── auth.js         ← Login, signup, signout
+│   ├── dashboard.js    ← CURRICULUM array, buildDashboard(), updateDashStats()
+│   └── engine.js       ← Lesson renderer — takes any lesson data object and builds the full UI. NEVER needs editing to add new lessons.
+└── lessons/
+    ├── 1-1-hebrew.js   ← Week 1 Day 1 Hebrew
+    ├── 1-2-greek.js    ← Week 1 Day 2 Greek
+    ... (pattern: {week}-{day}-{language}.js)
+```
+
+---
+
+## HOW TO ADD A NEW LESSON (the entire workflow)
+
+1. Create `/lessons/{w}-{d}-{lang}.js`
+2. In that file, add to the global `LESSONS` object:
+   `LESSONS['{w}-{d}-{Lang}'] = { ... lesson data ... };`
+3. In `dashboard.js` find the week in CURRICULUM array and set `hasLesson: true` for that day
+4. In `index.html` add ONE line before `</body>`:
+   `<script src="lessons/{w}-{d}-{lang}.js"></script>`
+
+That is it. The engine renders everything automatically.
+
+---
+
+## THE LESSON DATA STRUCTURE
+
+Every lesson file exports one object into LESSONS. Here is the complete schema:
+
+```javascript
+LESSONS['week-day-Lang'] = {
+  color:    'gold',          // 'gold' for Hebrew/Latin, 'blue' for Greek
+
+  subtitle: 'Week X · Day Y · Language Name',
+  title:    'The lesson title',
+  intro:    'Opening paragraph shown in the intro panel.',
+
+  sections: ['Introduction','Panel 2 Name','Panel 3 Name','Panel 4 Name','Panel 5 Name','Quiz','Complete'],
+  // Always 7 sections. The engine builds navigation from this array.
+
+  beforeYouBegin: `HTML string — content for the intro panel`,
+
+  // Panel 2 — alphabet/overview panel
+  alphabetIntro: 'Intro paragraph for panel 2',
+  alphabetNotes: `HTML string — additional notes`,
+  alphabet: [
+    { ch:'א', name:'Aleph', sound:'Silent', n:1, t:true },
+    // t:true = highlight this item in today's accent colour
+  ],
+
+  // Panel 3 — focus letters / key concepts
+  focusLetters: [
+    { ch:'א', name:'Aleph', trans:'(silent)', desc:'Description', ex:'Example' },
+  ],
+  deepDive: `HTML string — main explanatory content`,
+
+  // Panel 4 — writing practice
+  writing: [
+    { ch:'א', name:'Name', steps:['Step 1','Step 2','...'] },
+  ],
+
+  // Panel 5 — vocabulary + scripture
+  vocab: [
+    { ch:'word', trans:'transliteration', meaning:'English', note:'Grammar note' },
+  ],
+  scriptureRef: 'Genesis 1:1',
+  scripture: { orig:'Original text', trans:'Transliteration', eng:'"English." — Ref' },
+  scriptureNote: 'What to find in the text',
+  scriptureTip:  '<strong>💡 Tip:</strong> HTML tip box content',
+
+  // Panel 6 — quiz (always exactly 5 questions)
+  quiz: [
+    {
+      q:    'Question text',
+      ch:   'Character to display large (or empty string)',
+      opts: ['A','B','C','D'],
+      ans:  1,    // 0-indexed
+      ok:   'Correct feedback',
+      no:   'Wrong feedback',
+    },
+  ],
+
+  // Panel 7 — completion
+  completionNote: 'Summary of lesson',
+  nextDay:        'Day X: Next Title →',
+};
+```
+
+---
+
+## LESSONS BUILT (25 total, Weeks 1–5)
+
+### Week 1 — Alphabet Foundations
+- 1-1-Hebrew: Hebrew alphabet letters 1–5 (Aleph–He)
+- 1-2-Greek:  Greek alphabet letters 1–5 (Alpha–Epsilon)
+- 1-3-Hebrew: Hebrew letters 6–10 (Vav–Yod); divine name יהוה
+- 1-4-Greek:  Greek letters 6–10 (Zeta–Kappa); Theos, Iesous, Kyrios
+- 1-5-Hebrew: Hebrew letters 11–15 (Kaf–Samekh); Melech, Kavod, Nefesh, Mashiach
+
+### Week 2 — Completing the Alphabet
+- 2-1-Hebrew: Hebrew letters 16–22 + final forms; Shalom, Torah, Kadosh, Ruach
+- 2-2-Greek:  Greek letters 11–17 (Lambda–Rho); Pistis, Mathetes, Hodos, Aletheia
+- 2-3-Hebrew: Complete Niqqud vowel system
+- 2-4-Greek:  Greek letters 18–24 (Sigma–Omega); Christos, Soteria, Telos, Psyche
+- 2-5-Hebrew: Reading first Hebrew sentences; Psalm 23:1–3; four key prefixes
+
+### Week 3 — Latin Begins + Reading
+- 3-1-Latin:  Latin alphabet; ecclesiastical pronunciation
+- 3-2-Greek:  Greek grammar I — cases, article, first declension
+- 3-3-Hebrew: Hebrew grammar I — Qal Perfect verb
+- 3-4-Latin:  Latin grammar I — six cases, 1st and 2nd declension
+- 3-5-Hebrew: John 1:1 in all three languages (key: '3-5-Hebrew')
+
+### Week 4 — Grammar Foundations
+- 4-1-Hebrew: Qal Imperfect; YTAN prefixes; Vav-consecutive
+- 4-2-Greek:  Present Active Indicative; εἰμί paradigm; seven I AM sayings
+- 4-3-Latin:  1st conjugation present; esse paradigm; Creed
+- 4-4-Hebrew: Construct chains — Word of LORD, Son of Man, Spirit of God
+- 4-5-Hebrew: Week 1–4 review all three languages
+
+### Week 5 — Reading Scripture
+- 5-1-Hebrew: Psalm 23 full reading (all 6 verses); hesed
+- 5-2-Greek:  John 1:1–5; ἦν vs ἐγένετο; light shines in darkness
+- 5-3-Latin:  Pater Noster full; subjunctive mood; fiat voluntas tua
+- 5-4-Hebrew: Genesis 1:1–5 full; bara; tohu vavohu; ruach Elohim
+- 5-5-Greek:  Romans 3:21–26; δικαιοσύνη; δωρεάν; ἱλαστήριον; passive voice as grace
+
+---
+
+## CURRICULUM ROADMAP (dashboard.js CURRICULUM array)
+
+Weeks 6–8 are already defined in the CURRICULUM array with hasLesson:false.
+
+### Week 6 — The Verb Deepens
+- Day 1: Hebrew XII — Niphal stem (passive)
+- Day 2: Greek X — Aorist tense
+- Day 3: Latin V — Imperfect and future tenses
+- Day 4: Hebrew XIII — Piel stem (intensive)
+- Day 5: Greek XI — Participles introduction
+
+### Week 7 — Pronouns and Prepositions
+- Day 1: Hebrew XIV — Pronouns and suffixes
+- Day 2: Greek XII — Greek pronouns
+- Day 3: Latin VI — Pronouns and adjectives
+- Day 4: Hebrew XV — Prepositions in context
+- Day 5: Reading II — Psalm 1 in Hebrew and Greek LXX
+
+### Week 8 — Syntax and Sentence Structure
+- Day 1: Hebrew XVI — Vav-consecutive narrative
+- Day 2: Greek XIII — Subordinate clauses
+- Day 3: Latin VII — Subordinate clauses
+- Day 4: Hebrew XVII — Hebrew poetry and parallelism
+- Day 5: Reading III — Isaiah 53 Servant Song
+
+Year 1 continues to Week 20 (languages). Year 2 (Weeks 21–40) adds OT/NT survey,
+church history, systematic theology, hermeneutics — all in English with language integration.
+
+---
+
+## DATABASE SCHEMA (Supabase)
+
+```sql
+profiles        (id uuid PK, full_name text, created_at)
+progress        (id uuid PK, user_id fk, week int, day int, language text,
+                 section_completed int, quiz_score int, completed bool,
+                 completed_at timestamptz, created_at)
+                 UNIQUE: user_id + week + day + language
+vocab_progress  (id, user_id, language, word, correct_count, incorrect_count, last_reviewed)
+study_sessions  (id, user_id, started_at, ended_at, duration_seconds, week, day, language)
+```
+
+Row-level security enabled. Auto-trigger creates profile on signup.
+
+---
+
+## SUPABASE CREDENTIALS
+
+URL:      https://edjmdcnqewrkscfajgrk.supabase.co
+Anon key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVkam1kY25xZXdya3NjZmFqZ3JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1ODk3MTQsImV4cCI6MjA5MjE2NTcxNH0.q-fYt3PZpKreZLVXjMN8ZyIOnHTqBadCI3YsO5JEKHI
+
+---
+
+## DASHBOARD BEHAVIOUR
+
+- Visibility: completed weeks + current week + 2 weeks ahead + 1 faded teaser
+- Progression: STRICT — all 5 days of week N must be done to unlock week N+1
+- Lesson key format: '{week}-{day}-{Language}' e.g. '3-2-Greek', '4-1-Hebrew', '3-1-Latin'
+- Week 3 Day 5 uses key '3-5-Hebrew' (integrative reading lesson filed under Hebrew)
+
+---
+
+## DESIGN SYSTEM
+
+### Colour variables (style.css)
+```css
+--bg:        #FDFAF5   /* ivory — page background */
+--bg2:       #F5ECD7   /* parchment — cards, sidebar */
+--bg3:       #EDE0CC   /* darker parchment — hover */
+--border:    #D4B896   /* warm tan */
+--gold:      #8B4513   /* saddle brown — Hebrew / primary */
+--blue:      #3B5C1A   /* forest green — Greek */
+--green:     #7A2020   /* scripture red — Latin */
+--text:      #2C1810   /* deep bark brown */
+--text-mid:  #6B4C35
+--text-dim:  #A08060
+```
+
+### Fonts
+```css
+--display: 'Cinzel'          /* headings, nav, labels */
+--body:    'Source Sans 3'   /* all body text */
+--hebrew:  'Frank Ruhl Libre' /* Hebrew characters */
+--greek:   'Noto Serif'      /* Greek characters */
+--serif:   'EB Garamond'     /* quotes, introductions */
+```
+
+---
+
+## PEDAGOGICAL RULES
+
+1. Every lesson: exactly 7 sections, ~90 minutes
+2. 5 letters OR 1 grammar concept with 5 focus items per lesson
+3. Every vocabulary word tied to a specific scripture passage
+4. Every quiz answer (right and wrong) includes full explanatory feedback
+5. Hebrew: Masoretic Text (BHS) | Greek: UBS5/NA28 | Latin: Jerome's Vulgate
+6. Language colours: Hebrew=brown/gold, Greek=forest green, Latin=terra cotta
+
+---
+
+## KNOWN BUGS
+
+1. The sidebar week nav in engine.js always shows Week 1 days for ALL lessons
+   (uses CURRICULUM[0].days). Fix: use the active lesson's week to find the right week.
+2. Session timer element 'finalTime' must exist in the completion panel HTML.
+3. Latin lesson keys use 'Latin' as the language segment in the LESSONS key
+   but dashboard.js day entries use lang:'Latin' — these must match.
+
+---
+
+## DEPLOYMENT
+
+1. Push to GitHub → github.com/jfc101-a11y/bible-school
+2. GitHub Pages auto-deploys in ~60 seconds
+3. Cloudflare → Caching → Purge Everything (clears CDN cache)
+4. Hard refresh: Cmd+Shift+R (Mac) or Ctrl+Shift+R (Windows)
+
+---
+END OF BRIEFING
