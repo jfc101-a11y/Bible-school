@@ -47,11 +47,11 @@ const CURRICULUM = [
     { day:5, name:'Greek IX',    sub:'Romans 3:21–26 — Justification',    lang:'Greek',  icon:'GRK', hasLesson:true },
   ]},
   { week:6, title:'Week 6 — The Verb Deepens', days:[
-    { day:1, name:'Hebrew XII',  sub:'Niphal Stem — Passive Voice',       lang:'Hebrew', icon:'HEB', hasLesson:false },
-    { day:2, name:'Greek X',     sub:'Greek Aorist — Simple Past',        lang:'Greek',  icon:'GRK', hasLesson:false },
-    { day:3, name:'Latin V',     sub:'Latin Imperfect & Future',          lang:'Latin',  icon:'LAT', hasLesson:false },
-    { day:4, name:'Hebrew XIII', sub:'Piel Stem — Intensive Active',      lang:'Hebrew', icon:'HEB', hasLesson:false },
-    { day:5, name:'Greek XI',    sub:'Participles — Introduction',        lang:'Greek',  icon:'GRK', hasLesson:false },
+    { day:1, name:'Hebrew XII',  sub:'Niphal Stem — Passive Voice',       lang:'Hebrew', icon:'HEB', hasLesson:true },
+    { day:2, name:'Greek X',     sub:'Greek Aorist — Simple Past',        lang:'Greek',  icon:'GRK', hasLesson:true },
+    { day:3, name:'Latin V',     sub:'Latin Imperfect & Future',          lang:'Latin',  icon:'LAT', hasLesson:true },
+    { day:4, name:'Hebrew XIII', sub:'Piel Stem — Intensive Active',      lang:'Hebrew', icon:'HEB', hasLesson:true },
+    { day:5, name:'Greek XI',    sub:'Participles — Introduction',        lang:'Greek',  icon:'GRK', hasLesson:true },
   ]},
   { week:7, title:'Week 7 — Pronouns & Prepositions', days:[
     { day:1, name:'Hebrew XIV',  sub:'Hebrew Pronouns & Suffixes',        lang:'Hebrew', icon:'HEB', hasLesson:false },
