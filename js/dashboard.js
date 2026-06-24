@@ -1,9 +1,14 @@
 /* ═══════════════════════════════════════
    DASHBOARD.JS — Dashboard module
-   Visibility: completed weeks + current + 2 ahead
-   Progression: strict — all 5 days required
-   to unlock the next week
+   Visibility: completed weeks + current + 2 ahead (student mode)
+   Progression: strict — all 5 days required (student mode)
+
+   BUILDER_MODE: set to true while developing/testing the
+   curriculum. Shows ALL weeks unlocked regardless of progress.
+   Set to false before sharing with real students.
    ═══════════════════════════════════════ */
+
+const BUILDER_MODE = true;
 
 const CURRICULUM = [
   { week:1, title:'Week 1 — Alphabet Foundations', days:[
@@ -80,6 +85,7 @@ function getCurrentWeekIndex() {
 
 // ── Strict unlock check ───────────────────────────────────────
 function isWeekUnlocked(weekIndex) {
+  if (BUILDER_MODE) return true; // builder mode: everything always unlocked
   if (weekIndex === 0) return true;
   const prev     = CURRICULUM[weekIndex - 1];
   const prevDone = userProgress.filter(p => p.week === prev.week && p.completed).length;
@@ -94,9 +100,11 @@ function buildDashboard() {
 
   const currentIdx = getCurrentWeekIndex();
 
-  // Always show completed weeks + current week + 2 weeks ahead
-  // But only up to the last week in CURRICULUM
-  const showTo = Math.min(currentIdx + 2, CURRICULUM.length - 1);
+  // Builder mode: show every week in the curriculum, fully unlocked.
+  // Student mode: show completed weeks + current week + 2 ahead.
+  const showTo = BUILDER_MODE
+    ? CURRICULUM.length - 1
+    : Math.min(currentIdx + 2, CURRICULUM.length - 1);
 
   for (let wi = 0; wi <= showTo; wi++) {
     const wk       = CURRICULUM[wi];
@@ -105,6 +113,9 @@ function buildDashboard() {
     const status   = done >= wk.days.length ? 'complete'
                    : unlocked               ? 'current'
                    :                          'locked';
+    const statusLabel = status === 'complete' ? '✓ Done'
+                       : status === 'current'  ? (BUILDER_MODE ? 'Available' : 'In Progress')
+                       :                          '🔒 Locked';
 
     const card = document.createElement('div');
     card.className = 'week-card';
@@ -112,7 +123,7 @@ function buildDashboard() {
       <div class="week-card-header">
         <span class="week-card-title">${wk.title}</span>
         <span class="week-status status-${status}">
-          ${status === 'complete' ? '✓ Done' : status === 'current' ? 'In Progress' : '🔒 Locked'}
+          ${statusLabel}
         </span>
       </div>
       <div class="week-days" id="wdays-${wk.week}"></div>`;
@@ -152,8 +163,8 @@ function buildDashboard() {
     });
   }
 
-  // Teaser card — one more week beyond visible range
-  if (showTo < CURRICULUM.length - 1) {
+  // Teaser card — one more week beyond visible range (student mode only)
+  if (!BUILDER_MODE && showTo < CURRICULUM.length - 1) {
     const next    = CURRICULUM[showTo + 1];
     const teaser  = document.createElement('div');
     teaser.className = 'week-card';
